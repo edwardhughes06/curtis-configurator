@@ -190,13 +190,14 @@
                     const img = new Image;
                     img.onload = function () {
                         imagesLoadedCount++;
-
                         if (imagesLoadedCount === imageUrls.length) {
                             vm.imagesLoaded = true;
                             console.log(imagesLoadedCount + ' images preloaded');
                         }
                     }
-
+                    img.onerror = function (e) {
+                        console.error('Failed to load image:', imageUrl, e);
+                    }
                     img.src = imageUrl;
                 }
             },
