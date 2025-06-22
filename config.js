@@ -1,7 +1,7 @@
 ﻿
 function getConfig() { 
     return {
-        imageBaseUrl: "./public/Config-Images/",
+        imageBaseUrl: "public/Config-Images/",
         preloadImages: true,
         fields: [
             {
