@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Curtis Bikes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="configurator.css" rel="stylesheet">
+    <style>
+        .checkout-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 32px;
+        }
+        .checkout-title {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .checkout-summary {
+            margin-bottom: 24px;
+            background: #f8f8f8;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .checkout-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .checkout-form input, .checkout-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .checkout-form button {
+            width: 100%;
+            background: #004225;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 14px 0;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .checkout-form button:hover {
+            background: #02663b;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-title">Checkout</div>
+        <div class="checkout-summary">
+            <div><strong>Build Code:</strong> <span id="build-code"></span></div>
+            <div><strong>Total Price:</strong> £<span id="total-price"></span></div>
+        </div>
+        <form class="checkout-form" autocomplete="off" onsubmit="event.preventDefault(); alert('Order submitted! (Demo only)');">
+            <label for="address">Shipping Address</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+
+            <label for="card">Card Number</label>
+            <input id="card" name="card" type="text" inputmode="numeric" pattern="[0-9 ]*" maxlength="19" placeholder="1234 5678 9012 3456" required>
+
+            <label for="expiry">Expiry Date</label>
+            <input id="expiry" name="expiry" type="text" inputmode="numeric" pattern="[0-9/]*" maxlength="5" placeholder="MM/YY" required>
+
+            <label for="cvc">CVC</label>
+            <input id="cvc" name="cvc" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="123" required>
+
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+    <script>
+        // Populate build code and price from URL
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('build-code').textContent = params.get('b') || '';
+        document.getElementById('total-price').textContent = params.get('p') || '';
+    </script>
+</body>
+</html>

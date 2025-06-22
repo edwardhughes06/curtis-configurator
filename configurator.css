@@ -1,0 +1,383 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    height: 100%;
+    color: #111 !important;
+
+}
+
+body {
+            background: #fff;
+        }
+        header {
+            background: #111 !important;
+            border-bottom: 1px solid #222;
+        }
+        header nav a {
+            color: #fff !important;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        header nav a:hover {
+            color: #C2A76C !important;
+        }
+        header nav img {
+            filter: brightness(0) invert(1);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            gap: 6px;
+        }
+        .hamburger span {
+            display: block;
+            height: 4px;
+            width: 100%;
+            background: #C2A76C;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 990px) {
+            header nav > .nav-left,
+            header nav > .nav-right {
+                display: none !important;
+            }
+            .hamburger {
+                display: flex;
+                margin-right: 30px;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 3;
+            }
+            .mobile-menu {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: #111;
+                z-index: 1000;
+                gap: 32px;
+                transition: opacity 0.2s;
+            }
+            .mobile-menu a {
+                color: #fff !important;
+                font-size: 2rem;
+                font-weight: 600;
+                text-decoration: none;
+                margin: 12px 0;
+            }
+            .mobile-menu .close {
+                position: absolute;
+                top: 24px;
+                right: 24px;
+                font-size: 2.5rem;
+                color: #C2A76C;
+                cursor: pointer;
+            }
+            /* Center logo absolutely in nav for mobile */
+            header nav {
+                position: relative;
+                height: 70px;
+            }
+            header nav .logo {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+            }
+        }
+
+#configurator {
+    display: flex;
+    height: 100%;
+    padding-bottom: 50px;
+}
+
+#preview {
+    flex: 2;
+    height: 100%;
+    position: relative;
+}
+
+#preview-images {
+    height: 100%;
+    position: relative;
+}
+
+    #preview-images img {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        position: absolute;
+    }
+
+#sideNav {
+    height: 100%;
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    overflow-y: auto;
+}
+
+    #sideNav .fields {
+        flex: 1;
+        margin: 50px 50px 0 0;
+    }
+
+        #sideNav .fields .field {
+            margin-bottom: 20px;
+            border-top: 2px solid #e8e3e3;
+            padding-top: 20px;
+        }
+
+            #sideNav .fields .field .field-header {
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+
+            #sideNav .fields .field .field-label {
+                font-size: 20px;
+                color: rgb(65, 65, 65);
+                
+            }
+
+            #sideNav .fields .field .selection-label {
+                font-weight: bold;
+                color: #388659;
+            }
+
+            #sideNav .fields .field .options {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+                #sideNav .fields .field .options .option {
+                    cursor: pointer;
+                }
+
+            #sideNav .fields .field.text .options .option {
+                flex: 1;
+                padding: 10px;
+                background-color: transparent;
+                border: none;
+                border-radius: 10px;
+            }
+
+                #sideNav .fields .field.text .options .option.active {
+                    border: none;
+                    background-color: transparent;
+                }
+
+                #sideNav .fields .field.text .options .option .label {
+                    text-align: center;
+                }
+
+            #sideNav .fields .field.color .options .option {
+                padding-bottom: 8px;
+            }
+
+                #sideNav .fields .field.color .options .option.active {
+                    border-bottom: 3px solid #C2A76C;
+                    padding-bottom: 5px;
+                }
+
+            #sideNav .fields .field .options .option .color {
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+            }
+
+            #sideNav .fields .field.image .options .option {
+                padding-bottom: 8px;
+            }
+
+                #sideNav .fields .field.image .options .option.active {
+                    border-bottom: 3px solid #C2A76C;
+                    padding-bottom: 5px;
+                }
+
+            #sideNav .fields .field .options .option .image {
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                background-size: contain;
+            }
+
+@media only screen and (min-width: 990px) {
+    #sideNav {
+        max-width: 500px;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    #preview, #sideNav {
+        height: calc(50vh - 60px);
+        overflow-y: scroll;
+    }
+
+    #configurator {
+        display: block;
+    }
+
+    #sideNav .fields {
+        margin: 0 50px 15px 50px;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    #sideNav .fields {
+        margin: 0 25px 15px 25px;
+    }
+}
+
+/* Accent color for form controls */
+:root {
+    accent-color: #C2A76C;
+}
+
+/* Radio and checkbox accent (for browsers that support accent-color) */
+input[type="radio"],
+input[type="checkbox"] {
+    accent-color: #C2A76C;
+}
+
+/* Button accent styles */
+button,
+input[type="submit"],
+input[type="button"] {
+    background-color: #C2A76C;
+    color: #111;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #b89a5f;
+}
+
+/* Selection label accent */
+#sideNav .fields .field .selection-label {
+    color: #C2A76C !important;
+}
+
+/* Chevron accent */
+#sideNav .fields .field .field-header span[aria-hidden="true"] {
+    color: #C2A76C;
+}
+
+/*!----------  SPINNER LOADER ----------*/
+.lds-ring {
+    display: inline-block;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin: -40px 0 0 -40px;
+    width: 80px;
+    height: 80px;
+}
+
+    .lds-ring div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border: 8px solid #01bf81;
+        border-radius: 50%;
+        animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #01bf81 transparent transparent transparent;
+    }
+
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+        }
+
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .lds-ring div:nth-child(3) {
+            animation-delay: -0.15s;
+        }
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.config-footer {
+    width: 100%;
+    background: #111;
+    color: #fff;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    padding: 0;
+}
+
+.config-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 32px;
+}
+
+.config-footer-price {
+    font-size: 1.2rem;
+}
+
+.config-footer-buy {
+    background: #004225;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 32px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+@media only screen and (max-width: 991px) {
+    .config-footer {
+        position: fixed;
+        bottom: 0;
+    }
+}

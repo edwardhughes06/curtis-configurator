@@ -1,0 +1,172 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="configurator.css" rel="stylesheet">
+    <title>Configurator</title>
+
+    <script defer src="config.js"></script>
+    <script defer src="configurator.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <header x-data="{ menuOpen: false }">
+        <nav style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; height: 70px; position: relative;">
+            <!-- Left navigation -->
+            <div class="nav-left" style="flex: 1; display: flex; gap: 24px; justify-content: flex-start;">
+                <a href="#">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+            </div>
+            <!-- Center logo -->
+            <div class="logo" style="flex: 0 0 auto; display: flex; justify-content: center; align-items: center;">
+                <img src="" alt="Curtis Bikes Logo" style="height: 55px">
+            </div>
+            <!-- Right navigation -->
+            <div class="nav-right" style="flex: 1; display: flex; gap: 24px; justify-content: flex-end;">
+                <a href="#">Configurator</a>
+                <a href="#">Support</a>
+                <a href="#">Contact</a>
+            </div>
+            <!-- Hamburger for mobile -->
+            <div class="hamburger" @click="menuOpen = true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        <!-- Fullscreen mobile menu -->
+        <div class="mobile-menu" x-show="menuOpen" x-transition style="display: none;" @click.away="menuOpen = false">
+            <span class="close" @click="menuOpen = false">&times;</span>
+            <a href="#" @click="menuOpen = false">Home</a>
+            <a href="#" @click="menuOpen = false">Shop</a>
+            <a href="#" @click="menuOpen = false">About</a>
+            <a href="#" @click="menuOpen = false">Configurator</a>
+            <a href="#" @click="menuOpen = false">Support</a>
+            <a href="#" @click="menuOpen = false">Contact</a>
+        </div>
+    </header>
+
+    <div x-data="configurator">
+
+        <template x-if="!imagesLoaded">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </template>
+
+        <template x-if="imagesLoaded">
+
+            <div id="configurator">
+                <div id="preview">
+                    <div id="preview-images">
+                        <template x-for="image in images">
+                            <img :src="image.url" x-bind:style="'z-index: ' + image.zIndex" @error="event.target.src = 'Curtis-Bikes-AM9-2023-5-of-13.png'"/>
+                        </template>
+                    </div>
+                </div>
+
+                <div id="sideNav">
+                    <div class="fields">
+                        <template x-for="field in fields">
+                            <div :id="field.id" class="field" :class="field.displayType ? field.displayType.toLowerCase() :'text'" x-show="field.visible">
+                                <div
+                                    @click="
+                                        if (openFieldId === field.id) {
+                                            openFieldId = '';
+                                        } else if (openFieldId) {
+                                            const prev = openFieldId;
+                                            openFieldId = '';
+                                            setTimeout(() => { openFieldId = field.id }, 220);
+                                        } else {
+                                            openFieldId = field.id;
+                                        }
+                                    "
+                                    class="field-header"
+                                    style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                >
+                                    <div class="field-label" x-text="field.label"></div>
+                                    <div style="display: flex; align-items: center;">
+                                        <div class="selection-label"
+                                             x-text="getSelectedOption(field).label"
+                                             style="color: #111; font-weight: 300; margin-right: 8px;">
+                                        </div>
+                                        <!-- Chevron indicator -->
+                                        <span
+                                            style="transition: transform 0.2s;"
+                                            :style="openFieldId == field.id ? 'transform: rotate(180deg);' : ''"
+                                            aria-hidden="true"
+                                        >&#9660;</span>
+                                    </div>
+                                </div>
+                                <div class="options" x-show="openFieldId == field.id" x-transition>
+                                    <!-- For text fields, use radio buttons -->
+                                    <template x-if="isTextField(field)">
+                                        <div class="radio-group" style="display: flex; flex-direction: column; gap: 8px;">
+                                            <template x-for="option in field.options">
+                                                <label class="option" :class="getSelectedOption(field).id === option.id && 'active'" style="display: flex; align-items: center; cursor: pointer;">
+                                                    <input
+                                                        type="radio"
+                                                        :name="field.id"
+                                                        :value="option.id"
+                                                        :checked="getSelectedOption(field).id === option.id"
+                                                        @change="selectOption(field, option)"
+                                                        style="margin-right: 8px;"
+                                                    >
+                                                    <span>
+                                                        <span x-text="option.label"></span>
+                                                        <span x-show="option.price" style="margin-left: 8px; color: #888;">
+                                                            (£<span x-text="option.price"></span>)
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template x-if="isColorField(field)">
+                                        <template x-for="option in field.options">
+                                            <div class="option" @click="selectOption(field, option)" :class="getSelectedOption(field).id === option.id && 'active'">
+                                                <div class="color" :style="'background-color: ' + option.color"></div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template x-if="isImageField(field)">
+                                        <template x-for="option in field.options">
+                                            <div class="option" @click="selectOption(field, option)" :class="getSelectedOption(field).id === option.id && 'active'">
+                                                <div class="image" :style="'background-image: url(' + option.iconUrl + ')'"></div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <footer class="config-footer">
+                    <div class="config-footer-inner">
+                        <div class="config-footer-price">
+                            Total Price: £<span x-text="totalPrice"></span>
+                        </div>
+                        <button
+                            class="config-footer-buy"
+                            @click="buyNow()"
+                        >
+                            Buy Now
+                        </button>
+                    </div>
+                </footer>
+                <div>
+                    <!-- Total Price: £<span x-text="totalPrice"></span> -->
+                </div>
+
+            </div>
+        </template>
+        
+    </div>
+
+    
+
+</body>
+</html>
