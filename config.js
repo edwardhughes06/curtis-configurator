@@ -1,7 +1,7 @@
 ﻿
 function getConfig() { 
     return {
-        imageBaseUrl: "public/Config-Images/",
+        imageBaseUrl: "./public/Config-Images/",
         preloadImages: true,
         fields: [
             {
@@ -193,7 +193,7 @@ function getConfig() {
                     {
                         id: "RockShox-Reverb-AXS",
                         label: "RockShox Reverb AXS",
-                        imageUrl: "Seatposts/RockShox-Reverb-Axs.png",
+                        imageUrl: "Seatposts/Rockshox-Reverb-Axs.png",
                         price: 500
                     },
                    
